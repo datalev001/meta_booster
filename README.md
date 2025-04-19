@@ -1,1 +1,9 @@
-# meta_booster
+# A Novel and Practical Meta‑Booster
+A Stacking‑Enhanced Margin‑Space Framework for Dynamic, Loss‑Driven Ensemble Updates in Classification and Regression
+In this paper, I present Meta‑Booster, a versatile ensemble framework that can handle classification and regression tasks. Building on a collection of base learners - XGBoost, LightGBM, AdaBoost, and a compact neural network - Meta‑Booster iteratively refines a shared prediction vector. For classification, I extract incremental margin‑space updates and combine them via a lightweight stacking procedure; for regression, I meta‑boost residual deltas with the same stacking approach. At each step, I solve a held‑out least‑squares problem to weight each candidate delta and perform a line‑search to find the optimal step size that directly minimizes the true held metric (log‑loss for classification or RMSE for regression).
+At its core, Meta‑Booster relies on three key components:
+Delta extraction: Capture each learner's one‑step update - margin increments for classifiers or residual deltas for regressors - to isolate its immediate predictive gain.
+Stacked combination: Solve a constrained regression on the held‑out set to derive a weight vector that best explains the current residuals, allowing contributions from all learners simultaneously.
+Iterative update: Apply the weighted delta with an optimal learning rate found via line‑search, producing a greedy, loss‑driven ensemble evolution that adapts to the task.
+
+This approach departs from traditional static blending,  which fixes weights once or averages full‑model outputs by fine‑tuning the ensemble in metric‑optimal increments. Beyond superior accuracy in both classification (log‑loss, AUC) and regression (MAPE, RMSE), Meta‑Booster provides transparent insights into each learner's evolving role. Experiments on automotive price prediction and credit scoring demonstrate its ability to adapt and update strategies - greedy margin stacking for classification or residual stacking for regression - offering a unified, modular toolkit for interpretable ensemble learning.
